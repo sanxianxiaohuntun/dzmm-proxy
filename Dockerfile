@@ -8,17 +8,16 @@ RUN apk add --no-cache curl ca-certificates
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # 创建必要的目录并设置权限
-RUN mkdir -p /var/cache/nginx /var/run /var/log/nginx && \
-    chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx && \
-    chmod -R 755 /var/cache/nginx /var/run /var/log/nginx && \
+RUN mkdir -p /var/cache/nginx /var/log/nginx && \
+    chown -R nginx:nginx /var/cache/nginx /var/log/nginx && \
+    chmod -R 755 /var/cache/nginx /var/log/nginx && \
     # 删除默认的配置文件
-    rm -f /etc/nginx/conf.d/default.conf
+    rm -f /etc/nginx/conf.d/default.conf && \
+    # 确保 /tmp 目录权限正确
+    chmod 1777 /tmp
 
 # 暴露 80 端口
 EXPOSE 80
-
-# 使用非 root 用户运行
-USER nginx
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s \
