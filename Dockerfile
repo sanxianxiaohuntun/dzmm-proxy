@@ -7,10 +7,12 @@ RUN apk add --no-cache curl ca-certificates
 # 复制 Nginx 配置文件
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# 创建缓存目录并设置权限
-RUN mkdir -p /var/cache/nginx && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chmod -R 755 /var/cache/nginx
+# 创建必要的目录并设置权限
+RUN mkdir -p /var/cache/nginx /var/run /var/log/nginx && \
+    chown -R nginx:nginx /var/cache/nginx /var/run /var/log/nginx && \
+    chmod -R 755 /var/cache/nginx /var/run /var/log/nginx && \
+    # 删除默认的配置文件
+    rm -f /etc/nginx/conf.d/default.conf
 
 # 暴露 80 端口
 EXPOSE 80
