@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  nginx-proxy:
+    build: .
+    ports:
+      - "80:80"
+    restart: always
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    sysctls:
+      - net.core.somaxconn=65535
+      - net.ipv4.tcp_max_tw_buckets=1440000
+      - net.ipv4.tcp_fin_timeout=15
+      - net.ipv4.tcp_max_syn_backlog=3240000
+      - net.core.netdev_max_backlog=300000
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
