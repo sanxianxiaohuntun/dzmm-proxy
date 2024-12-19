@@ -5,13 +5,6 @@ services:
     build: .
     ports:
       - "80:80"
+    env_file:
+      - .env
     restart: always
-    ulimits:
-      nofile:
-        soft: 65535
-        hard: 65535
-    deploy:
-      resources:
-        limits:
-          cpus: '0.95'
-          memory: 2G
